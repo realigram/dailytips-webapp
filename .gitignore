@@ -1,0 +1,9 @@
+*.sw*
+*~
+/build
+/node_modules
+/bower_components
+.jshintrc
+*tpl-compiled.html
+.idea/*
+/dist
