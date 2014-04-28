@@ -28,7 +28,13 @@ angular.module('starter.services', [])
 			tx.executeSql('select * from categories;', [], function(tx, res) {
 				for(var i = 0; i < res.rows.length; i++){
 					var row = res.rows.item(i);
-					updateSelected(row.id, row.selected);
+					var selected;
+					if(row.selected === "false"){
+						selected = false;
+					} else if (row.selected === "true") {
+						selected = true;
+					}
+					updateSelected(row.id, selected);
 				}
           	});
 		});
@@ -50,10 +56,11 @@ angular.module('starter.services', [])
 					}
 					console.log("Updating selected for " + id + " to " + !selected + " from " + selected + " type is " + typeof(selected));
 					tx.executeSql("update categories set selected=? where id=?;", [!selected, id]);
+					updateSelected(id, !selected);
 				} else {
 					tx.executeSql("INSERT INTO categories (id, selected) VALUES (?,?);", [id, selected]);
+					updateSelected(id, selected);
 				}
-				updateSelected(id, selected);
           	});
 		});
 	};
