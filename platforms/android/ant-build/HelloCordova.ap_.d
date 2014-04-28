@@ -37,6 +37,7 @@
 /home/vik/realigram/dailytips-web/platforms/android/assets/www/plugins/org.apache.cordova.device/www/device.js \
 /home/vik/realigram/dailytips-web/platforms/android/assets/www/plugins/com.phonegap.plugins.sqlite/www \
 /home/vik/realigram/dailytips-web/platforms/android/assets/www/plugins/com.phonegap.plugins.sqlite/www/SQLitePlugin.js \
+/home/vik/realigram/dailytips-web/platforms/android/assets/www/js/services.js \
 /home/vik/realigram/dailytips-web/platforms/android/assets/www/js/app.js \
 /home/vik/realigram/dailytips-web/platforms/android/assets/www/js/controllers.js \
 /home/vik/realigram/dailytips-web/platforms/android/assets/www/lib/ionic \

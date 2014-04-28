@@ -6,7 +6,7 @@
     <ion-list>
       <ion-item ng-repeat="category in categories" class="item-button-right">
         {{category.title}}
-          <button ng-click="toggleCategory(category)">
+          <button ng-class="(category.selected) ? 'button button-positive' : 'button button-light'" ng-click="toggleSelection(category)">
              <i class="icon ion-checkmark-round"></i>
           </button>
       </ion-item>

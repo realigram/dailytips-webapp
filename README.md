@@ -37,6 +37,11 @@ cd www
 python -m SimpleHTTPServer 8000
 ```
 
+### Debug
+
+Run monitor with `monitor` to see console log output.
+Inspect sqlite database by using the "pull from device" function of the emulator.
+
 See [this link](http://ionicframework.com/getting-started/) for more help.
 
 Using Sass (optional)
