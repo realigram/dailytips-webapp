@@ -18,14 +18,13 @@ angular.module('starter', ['ionic', 'starter.controllers'])
 		  var db = window.sqlitePlugin.openDatabase({name: "categories"});
 
 		  db.transaction(function(tx) {
-			tx.executeSql('CREATE TABLE IF NOT EXISTS categories (id integer primary key, selected boolean)');
-			tx.executeSql('CREATE TABLE IF NOT EXISTS tips (id integer primary key, shown boolean, done boolean)');
+			tx.executeSql('CREATE TABLE IF NOT EXISTS categories (id integer primary key, selected boolean, created datetime, modified datetime)');
+			tx.executeSql('CREATE TABLE IF NOT EXISTS tips (id integer primary key, shown boolean, done boolean, created datetime, modified datetime)');
 		  });
 		}, false);
 	});
 })
-
-.config(function ($stateProvider, $urlRouterProvider) {
+.config(function ($stateProvider, $urlRouterProvider, $provide) {
 	$stateProvider
 
 		.state('app', {
@@ -35,12 +34,12 @@ angular.module('starter', ['ionic', 'starter.controllers'])
 			controller: 'AppCtrl'
 		})
 
-		.state('app.tips', {
-			url: "/tips",
+		.state('app.home', {
+			url: "/home",
 			views: {
 				'menuContent': {
-					templateUrl: "templates/tips.html",
-					controller: 'TipsCtrl'
+					templateUrl: "templates/home.html",
+					controller: 'HomeCtrl'
 				}
 			}
 		})
@@ -64,7 +63,21 @@ angular.module('starter', ['ionic', 'starter.controllers'])
 			}
 		});
 	// if none of the above states are matched, use this as the fallback
-	$urlRouterProvider.otherwise('/app/tips');
+	$urlRouterProvider.otherwise('/app/home');
+
+	$provide.decorator('$rootScope', ['$delegate', function($delegate){
+
+		Object.defineProperty($delegate.constructor.prototype, '$onRootScope', {
+			value: function(name, listener){
+				var unsubscribe = $delegate.$on(name, listener);
+				this.$on('$destroy', unsubscribe);
+			},
+			enumerable: false
+		});
+
+
+		return $delegate;
+	}]);
 });
 
 

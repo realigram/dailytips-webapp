@@ -1,0 +1,47 @@
+<ion-view title="Tips">
+  <ion-nav-buttons side="left">
+    <button menu-toggle="left"class="button button-icon icon ion-navicon"></button>
+  </ion-nav-buttons>
+  <ion-content class="has-header">
+    <h1>Today's Tip</h1>
+
+    <div class="list card" ng-if="tip.title">
+
+      <div class="item">
+
+        <h2>{{tip.title}}</h2>
+        <p></p>
+      </div>
+
+      <div class="item item-body">
+        <p>
+          {{tip.content}}
+        </p>
+        <p>
+          <a href="#" class="subdued">{{tip.category}}</a>
+        </p>
+      </div>
+
+      <div class="item tabs tabs-secondary tabs-icon-left">
+        <a class="tab-item" href="#" ng-click="addPoints(tip)">
+          <i class="icon ion-checkmark-round"></i>
+          Done
+        </a>
+      </div>
+
+    </div>
+    <div class="list card" ng-if="tip.title === undefined">
+      <div class="item">
+
+        <h2>Pick some categories!</h2>
+        <p></p>
+      </div>
+
+      <div class="item item-body">
+        <p>
+          Please pick some categories from the menu so that we can show you some tips.
+        </p>
+      </div>
+    </div>
+  </ion-content>
+</ion-view>

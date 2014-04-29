@@ -7,3 +7,7 @@
 *tpl-compiled.html
 .idea/*
 /dist
+*.apk
+*.ap_
+*.ap_.d
+build.prop

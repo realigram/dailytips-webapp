@@ -3,13 +3,16 @@
     <button menu-toggle="left" class="button button-icon icon ion-navicon"></button>
   </ion-nav-buttons>
   <ion-content class="has-header">
-    <ion-list>
-      <ion-item ng-repeat="category in categories" class="item-button-right">
-        {{category.title}}
-          <button ng-class="(category.selected) ? 'button button-positive' : 'button button-light'" ng-click="toggleSelection(category)">
-             <i class="icon ion-checkmark-round"></i>
-          </button>
-      </ion-item>
-    </ion-list>
+    <ul class="list">
+      <li ng-repeat="category in categories" class="item item-checkbox">
+          <label class="checkbox" ng-click="toggleSelection(category)">
+              <span ng-switch on="category.selected">
+                  <input ng-switch-when="true" type="checkbox" checked>
+                  <input ng-switch-default type="checkbox">
+                </span>
+          </label>
+          {{category.title}}
+      </li>
+    </ul>
   </ion-content>
 </ion-view>

@@ -25,9 +25,9 @@
 /home/vik/realigram/dailytips-web/platforms/android/assets/www/js \
 /home/vik/realigram/dailytips-web/platforms/android/assets/www/lib \
 /home/vik/realigram/dailytips-web/platforms/android/assets/www/templates/tip.html \
+/home/vik/realigram/dailytips-web/platforms/android/assets/www/templates/home.html \
 /home/vik/realigram/dailytips-web/platforms/android/assets/www/templates/categories.html \
 /home/vik/realigram/dailytips-web/platforms/android/assets/www/templates/menu.html \
-/home/vik/realigram/dailytips-web/platforms/android/assets/www/templates/tips.html \
 /home/vik/realigram/dailytips-web/platforms/android/assets/www/img/ionic.png \
 /home/vik/realigram/dailytips-web/platforms/android/assets/www/css/style.css \
 /home/vik/realigram/dailytips-web/platforms/android/assets/www/data/tips.json \
