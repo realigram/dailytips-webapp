@@ -10,4 +10,6 @@
 *.apk
 *.ap_
 *.ap_.d
+*.apk.d
 build.prop
+bower_components/

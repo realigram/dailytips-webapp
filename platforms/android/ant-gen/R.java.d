@@ -1,4 +1,4 @@
-/home/vik/realigram/dailytips-web/platforms/android/ant-gen/com/ionicframework/starter/R.java \
+/home/vik/realigram/dailytips-web/platforms/android/ant-gen/com/realigram/dailytips/R.java \
  : /home/vik/realigram/dailytips-web/platforms/android/res/drawable/icon.png \
 /home/vik/realigram/dailytips-web/platforms/android/res/drawable-ldpi/icon.png \
 /home/vik/realigram/dailytips-web/platforms/android/res/drawable-hdpi/icon.png \

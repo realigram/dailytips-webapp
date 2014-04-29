@@ -1,5 +1,5 @@
 /** Automatically generated file. DO NOT MODIFY */
-package com.ionicframework.starter;
+package com.realigram.dailytips;
 
 public final class BuildConfig {
     public final static boolean DEBUG = true;

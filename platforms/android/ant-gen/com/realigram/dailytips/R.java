@@ -5,7 +5,7 @@
  * should not be modified by hand.
  */
 
-package com.ionicframework.starter;
+package com.realigram.dailytips;
 
 public final class R {
     public static final class attr {

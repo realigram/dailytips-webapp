@@ -1,5 +1,5 @@
 # view AndroidManifest.xml #generated:6
--keep class com.ionicframework.starter.HelloCordova { <init>(...); }
+-keep class com.realigram.dailytips.DailyTips { <init>(...); }
 
 # view AndroidManifest.xml #generated:12
 -keep class org.pgsqlite.SQLitePlugin { <init>(...); }

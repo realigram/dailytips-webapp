@@ -1,15 +1,16 @@
 angular.module('starter.services', [])
 
-.factory("category", function ($rootScope) {
-	var categories = [
-		{ title: 'Sleep', id: 1 },
-		{ title: 'Nutrition', id: 2 },
-		{ title: 'Fitness', id: 3 },
-		{ title: 'Stress', id: 4 },
-		{ title: 'Focus', id: 5 },
-		{ title: 'Anxiety', id: 6 },
-		{ title: 'Self Confidence', id: 7 }
-	];
+.factory("category", function ($rootScope, $http, $q) {
+	var categories = [];
+	document.addEventListener("deviceready", function onDeviceReady() {
+		$http.get('data/categories.json')
+		   .then(function(res){
+			  categories = res.data;
+			  setSelected().then(function(){
+				  $rootScope.$emit("categories-updated");
+			  });
+		});
+	}, false);
 
 	var updateSelected = function(id, selected){
 		for(var j = 0; j < categories.length; j++){
@@ -20,6 +21,7 @@ angular.module('starter.services', [])
 	};
 
 	var setSelected = function(){
+		var d = $q.defer();
 		var db = window.sqlitePlugin.openDatabase({name: "categories"});
 		for(var i = 0; i < categories.length; i++){
 			categories[i].selected = false;
@@ -36,8 +38,10 @@ angular.module('starter.services', [])
 					}
 					updateSelected(row.id, selected);
 				}
+				d.resolve(true);
           	});
 		});
+		return d.promise;
 	};
 
 	var toggleSelection = function(id){
@@ -77,8 +81,6 @@ angular.module('starter.services', [])
 		return selCategories;
 	};
 
-	setSelected();
-
 	var api = {
 		categories: function(){
 			return categories;
@@ -96,14 +98,16 @@ angular.module('starter.services', [])
 .factory("tip", function($http, $rootScope, $q, category){
 	var tips = [];
 	var tip = {};
-	$http.get('data/tips.json')
-       .then(function(res){
-          tips = res.data;
-		  setShown().then(function(){
-			  $rootScope.$emit("tips-updated");
-			  selectDailyTip();
-		  });
-    });
+	document.addEventListener("deviceready", function onDeviceReady() {
+		$http.get('data/tips.json')
+		   .then(function(res){
+			  tips = res.data;
+			  setShown().then(function(){
+				  $rootScope.$emit("tips-updated");
+				  selectDailyTip();
+			  });
+		});
+	}, false);
 
 	var getTipIndexById = function(id){
 		for(var j = 0; j < tips.length; j++){
