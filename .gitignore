@@ -13,3 +13,4 @@
 *.apk.d
 build.prop
 bower_components/
+npm-debug.log

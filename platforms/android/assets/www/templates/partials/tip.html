@@ -1,0 +1,22 @@
+<div class="list card">
+    <div class="item">
+        <h2>{{tip.title}}</h2>
+        <p></p>
+    </div>
+
+    <div class="item item-body">
+    <p>
+      {{tip.content}}
+    </p>
+    <p>
+      <a href="#" class="subdued">{{tip.category}}</a>
+    </p>
+    </div>
+
+    <div class="item tabs tabs-secondary tabs-icon-left">
+    <a class="tab-item" href="#" ng-click="markDone(tip)">
+      <i class="icon ion-checkmark-round"></i>
+      Done -- {{tip.pointValue}} points
+    </a>
+    </div>
+</div>

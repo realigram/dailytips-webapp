@@ -1,4 +1,4 @@
-angular.module('starter.services', [])
+angular.module('dailytips.services', [])
 
 .factory("category", function ($rootScope, $http, $q) {
 	var categories = [];
@@ -109,6 +109,10 @@ angular.module('starter.services', [])
 		});
 	}, false);
 
+	$rootScope.$on("categories-updated", function(){
+		selectDailyTip();
+	});
+
 	var getTipIndexById = function(id){
 		for(var j = 0; j < tips.length; j++){
 			if(tips[j].id === id){
@@ -122,17 +126,19 @@ angular.module('starter.services', [])
 		var d = $q.defer();
 		for(var i = 0; i < tips.length; i++){
 			tips[i].shown = false;
-			tips[i].done = false;
+			tips[i].points = 0;
+			tips[i].pointValue = 0;
 		}
 		var db = window.sqlitePlugin.openDatabase({name: "categories"});
 		db.transaction(function(tx) {
-			tx.executeSql('select id, shown, done, created from tips where shown=?;', [true], function(tx, res) {
+			tx.executeSql('select id, shown, points, created from tips where shown=?;', [true], function(tx, res) {
 				for(var i = 0; i < res.rows.length; i++){
 					var row = res.rows.item(i);
 					var j = getTipIndexById(row.id);
-					tips[j].shown = row.shown;
-					tips[j].done = row.done;
+					tips[j].shown = true;
+					tips[j].points = row.points;
 					tips[j].created = row.created;
+					tips[j].pointValue = getPointsForTip(row.created);
 				}
 				d.resolve(true);
 			});
@@ -145,13 +151,15 @@ angular.module('starter.services', [])
 		var tip;
 		var counter = 0;
 		var categories = category.selectedCategories();
-		while(!tipOkay && counter < 200){
-			var rand = Math.floor((Math.random() * tips.length));
-			if(!tips[rand].shown && categories.indexOf(tips[rand].category) !== -1){
-				tipOkay = true;
-				tip = tips[rand];
+		if(tips.length > 0){
+			while(!tipOkay && counter < 200){
+				var rand = Math.floor((Math.random() * (tips.length-1)));
+				if(!tips[rand].shown && categories.indexOf(tips[rand].category) !== -1){
+					tipOkay = true;
+					tip = tips[rand];
+				}
+				counter = counter + 1;
 			}
-			counter = counter + 1;
 		}
 		return tip;
 	};
@@ -173,13 +181,18 @@ angular.module('starter.services', [])
 		return d.promise;
 	};
 
+	var getHourDiff = function(created){
+		var time = new Date();
+		var lastTime = new Date(created);
+		return (time - lastTime) / (1000 * 60 * 60); // Convert to hours.
+	};
+
 	var selectDailyTip = function(){
 		getLastTip().then(function(lastTip){
 			var time = new Date();
 			console.log("The last tip is", lastTip);
 			if(lastTip.created !== undefined){
-				var lastTime = new Date(lastTip.created);
-				var hourDiff = (time - lastTime) / (1000 * 60 * 60); // Convert to hours.
+				var hourDiff = getHourDiff(lastTip.created);
 				console.log("Hour diff from last tip to now is " + hourDiff);
 			} else {
 				console.log("No daily tip found yet, setting one now.");
@@ -188,12 +201,17 @@ angular.module('starter.services', [])
 			if(hourDiff >= 24){
 				var newTip = pickRandomTip();
 				console.log("Picked a new tip.", newTip);
-				var timeString = time.toISOString();
+				var timeString = new Date().toISOString();
 				if(newTip !== undefined){
 					var db = window.sqlitePlugin.openDatabase({name: "categories"});
 					db.transaction(function(tx) {
-						tx.executeSql('INSERT INTO tips (id, shown, created, modified) VALUES (?,?,?,?);', [newTip.id, true, timeString, timeString], function(tx, res) {
+						tx.executeSql('INSERT INTO tips (id, shown, points, created, modified) VALUES (?,?,?,?,?);', [newTip.id, true, 0, timeString, timeString], function(tx, res) {
 							tip = newTip;
+							tip.shown = true;
+							tip.created = time;
+							tip.pointValue = getPointsForTip(time);
+							var index = getTipIndexById(tip.id);
+							tips[index] = tip;
 							$rootScope.$emit("tips-updated");
 						});
 					});
@@ -202,9 +220,40 @@ angular.module('starter.services', [])
 		});
 	};
 
-	$rootScope.$on("categories-updated", function(){
-		selectDailyTip();
-	});
+	var getPointsForTip = function(created){
+		var hourDiff = getHourDiff(created);
+		var points = 0;
+		if(hourDiff < 24){
+			points = 100;
+		} else if (hourDiff < 48){
+			points = 30;
+		} else {
+			points = 10;
+		}
+		return points;
+	};
+
+	var updatePoints = function(id, points){
+		var d = $q.defer();
+		var db = window.sqlitePlugin.openDatabase({name: "categories"});
+		db.transaction(function(tx) {
+			tx.executeSql('update tips set points=? where id=?;', [points, id], function(tx, res) {
+				var index = getTipIndexById(id);
+				tips[index].points = points;
+				$rootScope.$emit("tips-updated");
+				d.resolve(true);
+			});
+		});
+		return d.promise;
+	};
+
+	var markTipDone = function(tip){
+		var d = $q.defer();
+		updatePoints(tip.id, tip.pointValue).then(function(){
+			d.resolve(true);
+		});
+		return d.promise;
+	};
 
 	var api = {
 		tips: function(){
@@ -212,6 +261,64 @@ angular.module('starter.services', [])
 		},
 		tip: function(){
 			return tip;
+		},
+		markDone: function(tip){
+			return markTipDone(tip);
+		},
+		shownTips: function(){
+			var shown = [];
+			for(var i = 0; i < tips.length; i++){
+				if(tips[i].shown === true){
+					shown.push(tips[i]);
+				}
+			}
+			return shown;
+		}
+	};
+	return api;
+
+})
+
+.factory("point", function($http, $rootScope, $q, tip){
+	var points = 0;
+	var level = 1;
+	var levelPoints = 0;
+	$rootScope.$on('tips-updated', function(){
+		setTotalPoints();
+		setLevel(points);
+		console.log("Points are: " + points + " and level is: " + level + " to level up, need: " + levelPoints);
+		$rootScope.$emit("points-updated");
+	});
+
+	var setTotalPoints = function(){
+		var tips = tip.tips();
+		points = 0;
+		for(var i = 0; i < tips.length; i++){
+			points = points + tips[i].points;
+		}
+	};
+
+	var setLevel = function(points){
+		var needed = 0;
+		level = 0;
+		var remaining = points;
+		while(remaining >= needed){
+			level = level + 1;
+			remaining = remaining - needed;
+			needed = needed + 100;
+		}
+		levelPoints = remaining;
+	};
+
+	var api = {
+		points: function(){
+			return points;
+		},
+		level: function(){
+			return level;
+		},
+		levelPoints: function(){
+			return levelPoints;
 		}
 	};
 	return api;

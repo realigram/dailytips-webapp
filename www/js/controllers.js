@@ -1,4 +1,4 @@
-angular.module('starter.controllers', ['starter.services'])
+angular.module('dailytips.controllers', ['dailytips.services'])
 
 .controller('AppCtrl', function ($scope) {
 })
@@ -15,16 +15,48 @@ angular.module('starter.controllers', ['starter.services'])
 	}
 })
 
-.controller('TipCtrl', function ($scope, $stateParams) {
+.controller('TipCtrl', function ($scope, tip, point) {
 
 })
 
-.controller('HomeCtrl', function ($scope, tip) {
-	$scope.tips = tip.tips();
-	$scope.tip = tip.tip();
+.controller('TipsCtrl', function ($scope, tip, point) {
+	var setData = function(){
+		$scope.tips = tip.shownTips();
+		console.log($scope.tips.length + " shown tips exist.");
+		$scope.tip = tip.tip();
+	};
+
+	$scope.markDone = function(tipData){
+		tip.markDone(tipData);
+	};
+
+	setData();
 
 	$scope.$onRootScope('tips-updated', function(){
+		setData();
+	});
+})
+
+.controller('HomeCtrl', function ($scope, tip, point) {
+	var setData = function(){
 		$scope.tips = tip.tips();
 		$scope.tip = tip.tip();
+		$scope.points = point.points();
+		$scope.level = point.level();
+		$scope.levelPoints = point.levelPoints();
+	};
+
+	$scope.markDone = function(tipData){
+		tip.markDone(tipData);
+	};
+
+	setData();
+
+	$scope.$onRootScope('tips-updated', function(){
+		setData();
+	});
+
+	$scope.$onRootScope('points-updated', function(){
+		setData();
 	});
 });

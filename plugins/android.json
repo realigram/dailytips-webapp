@@ -33,13 +33,13 @@
     },
     "installed_plugins": {
         "org.apache.cordova.console": {
-            "PACKAGE_NAME": "com.ionicframework.starter"
+            "PACKAGE_NAME": "com.ionicframework.dailytips"
         },
         "org.apache.cordova.device": {
-            "PACKAGE_NAME": "com.ionicframework.starter"
+            "PACKAGE_NAME": "com.ionicframework.dailytips"
         },
         "com.phonegap.plugins.sqlite": {
-            "PACKAGE_NAME": "com.ionicframework.starter"
+            "PACKAGE_NAME": "com.ionicframework.dailytips"
         }
     },
     "dependent_plugins": {}
