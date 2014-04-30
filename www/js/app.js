@@ -1,4 +1,4 @@
-// Daily Tips App
+// Fitalize App
 angular.module('dailytips', ['ionic', 'dailytips.directives', 'dailytips.controllers'])
 
 .run(function ($ionicPlatform) {
