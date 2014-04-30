@@ -15,5 +15,5 @@ build.prop
 bower_components/
 npm-debug.log
 local.properties
-ant-build/**/*
-ant-gen/**/*
+**/ant-build/**/*
+**/ant-gen/**/*
