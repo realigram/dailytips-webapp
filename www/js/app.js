@@ -16,6 +16,7 @@ angular.module('dailytips', ['ionic', 'dailytips.directives', 'dailytips.control
 				// Only create tables if they don't exist.
 				tx.executeSql('CREATE TABLE IF NOT EXISTS categories (id integer primary key, selected boolean, created datetime, modified datetime)');
 				tx.executeSql('CREATE TABLE IF NOT EXISTS tips (id integer primary key, shown boolean, points integer, created datetime, modified datetime)');
+				tx.executeSql('CREATE TABLE IF NOT EXISTS achievements (id integer primary key, complete boolean, created datetime, modified datetime)');
 			});
 		}, false);
 	});
@@ -69,15 +70,16 @@ angular.module('dailytips', ['ionic', 'dailytips.directives', 'dailytips.control
 			}
 		})
 
-		.state('app.single', {
-			url: "/tips/tipId",
+		.state('app.achievements', {
+			url: "/achievements",
 			views: {
 				'menuContent': {
-					templateUrl: "templates/tip.html",
-					controller: 'TipCtrl'
+					templateUrl: "templates/achievements.html",
+					controller: 'AchievementsCtrl'
 				}
 			}
 		});
+
 	// if none of the above states are matched, use this as the fallback
 	$urlRouterProvider.otherwise('/app/onboard');
 

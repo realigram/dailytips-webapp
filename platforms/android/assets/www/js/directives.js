@@ -26,4 +26,11 @@ angular.module('dailytips.directives', [])
 			restrict: 'E',
 			templateUrl: 'templates/partials/points.html'
 		};
+	})
+
+.directive('dtAchievements', function(){
+		return {
+			restrict: 'E',
+			templateUrl: 'templates/partials/achievements.html'
+		};
 	});
