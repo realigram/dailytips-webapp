@@ -22,6 +22,8 @@
 /home/vik/realigram/dailytips-web/platforms/android/ant-build/classes/de/appplant/cordova/plugin/localnotification/LocalNotification$1.class \
 /home/vik/realigram/dailytips-web/platforms/android/ant-build/classes/de/appplant/cordova/plugin/localnotification/LocalNotification$3.class \
 /home/vik/realigram/dailytips-web/platforms/android/ant-build/classes/de/appplant/cordova/plugin/localnotification/Options.class \
+/home/vik/realigram/dailytips-web/platforms/android/ant-build/classes/nl/xservices/plugins/Toast$1.class \
+/home/vik/realigram/dailytips-web/platforms/android/ant-build/classes/nl/xservices/plugins/Toast.class \
 /home/vik/realigram/dailytips-web/platforms/android/ant-build/classes/org/pgsqlite/SQLitePlugin.class \
 /home/vik/realigram/dailytips-web/platforms/android/ant-build/classes/org/pgsqlite/SQLitePlugin$2.class \
 /home/vik/realigram/dailytips-web/platforms/android/ant-build/classes/org/pgsqlite/SQLitePlugin$1.class \

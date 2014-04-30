@@ -27,6 +27,13 @@ module.exports = [
         "clobbers": [
             "plugins.appPreferences"
         ]
+    },
+    {
+        "file": "plugins/nl.x-services.plugins.toast/www/Toast.js",
+        "id": "nl.x-services.plugins.toast.Toast",
+        "clobbers": [
+            "window.plugins.toast"
+        ]
     }
 ];
 module.exports.metadata = 
@@ -36,7 +43,8 @@ module.exports.metadata =
     "org.apache.cordova.device": "0.2.9",
     "com.phonegap.plugins.sqlite": "1.0.0",
     "de.appplant.cordova.plugin.local-notification": "0.7.4",
-    "me.apla.cordova.app-preferences": "0.4.2"
+    "me.apla.cordova.app-preferences": "0.4.2",
+    "nl.x-services.plugins.toast": "2.0"
 }
 // BOTTOM OF METADATA
 });

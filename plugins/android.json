@@ -23,6 +23,10 @@
                         {
                             "xml": "<feature name=\"AppPreferences\"><param name=\"android-package\" value=\"me.apla.cordova.AppPreferences\" /></feature>",
                             "count": 1
+                        },
+                        {
+                            "xml": "<feature name=\"Toast\"><param name=\"android-package\" value=\"nl.xservices.plugins.Toast\" /></feature>",
+                            "count": 1
                         }
                     ],
                     "/widget": []
@@ -72,6 +76,9 @@
             "PACKAGE_NAME": "com.realigram.dailytips"
         },
         "me.apla.cordova.app-preferences": {
+            "PACKAGE_NAME": "com.realigram.dailytips"
+        },
+        "nl.x-services.plugins.toast": {
             "PACKAGE_NAME": "com.realigram.dailytips"
         }
     },

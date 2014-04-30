@@ -187,6 +187,18 @@ angular.module('dailytips.services', [])
 		return (time - lastTime) / (1000 * 60 * 60); // Convert to hours.
 	};
 
+	var createTip = function(id){
+		var d = $q.defer();
+		var db = window.sqlitePlugin.openDatabase({name: "categories"});
+		var timeString = new Date().toISOString();
+		db.transaction(function(tx) {
+			tx.executeSql('INSERT INTO tips (id, shown, points, created, modified) VALUES (?,?,?,?,?);', [id, true, 0, timeString, timeString], function(tx, res) {
+				d.resolve(true);
+			});
+		});
+		return d.promise;
+	};
+
 	var selectDailyTip = function(){
 		getLastTip().then(function(lastTip){
 			var time = new Date();
@@ -278,6 +290,9 @@ angular.module('dailytips.services', [])
 		},
 		getTipIndexById: function(id){
 			return getTipIndexById(id);
+		},
+		createTip: function(id){
+			return createTip(id);
 		}
 	};
 	return api;
@@ -416,6 +431,27 @@ angular.module('dailytips.services', [])
 		},
 		get: function(key){
 			return getValue(key);
+		}
+	};
+	return api;
+})
+
+.factory('toast', function($q){
+	var showToast = function(message){
+		window.plugins.toast.showLongBottom(
+			message,
+			function(a){
+				console.log('Showed toast message: ' + a)
+			},
+			function(b){
+				alert('Could not show toast message: ' + b)
+			}
+		)
+	};
+
+	var api = {
+		show: function(message){
+			return showToast(message);
 		}
 	};
 	return api;

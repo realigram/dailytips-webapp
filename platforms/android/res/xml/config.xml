@@ -16,6 +16,9 @@
     <feature name="AppPreferences">
         <param name="android-package" value="me.apla.cordova.AppPreferences" />
     </feature>
+    <feature name="Toast">
+        <param name="android-package" value="nl.xservices.plugins.Toast" />
+    </feature>
     <name>DailyTips</name>
     <description>
         Daily health tips.

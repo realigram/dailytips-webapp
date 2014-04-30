@@ -22,7 +22,7 @@ angular.module('dailytips.controllers', ['dailytips.services'])
 
 })
 
-.controller('TipsCtrl', function ($scope, tip, point) {
+.controller('TipsCtrl', function ($scope, tip, point, toast) {
 	var setData = function(){
 		$scope.tips = tip.shownTips();
 		console.log($scope.tips.length + " shown tips exist.");
@@ -31,6 +31,7 @@ angular.module('dailytips.controllers', ['dailytips.services'])
 
 	$scope.markDone = function(tipData){
 		tip.markDone(tipData);
+		toast.show("Nice job!  Keep it up!");
 	};
 
 	setData();
@@ -40,7 +41,8 @@ angular.module('dailytips.controllers', ['dailytips.services'])
 	});
 })
 
-.controller('OnboardCtrl', function($scope, $location, storage, $state, tip, point){
+.controller('OnboardCtrl', function($scope, $location, storage, $state, tip, point, toast, notification){
+	$scope.onboard = false;
 	var startApp = function() {
 		console.log("Change path to home.");
 		$state.go("app.home");
@@ -108,22 +110,36 @@ angular.module('dailytips.controllers', ['dailytips.services'])
 		setData();
 	});
 
+	$scope.$onRootScope('tips-updated', function(){
+		var tipIndex = tip.getTipIndexById(16);
+		$scope.tip = tip.tips()[tipIndex];
+		$scope.tip.pointValue = 100;
+	});
+
 	$scope.markDone = function(tipData){
-		tip.markDone(tipData);
+		tip.createTip(tipData.id).then(function(){
+			tip.markDone(tipData);
+			toast.show("Congratulations!  Here's to many more.")
+		});
 	};
 
 	document.addEventListener("deviceready", function onDeviceReady() {
 		storage.get('first-time').then(function(firstTime){
 			if(firstTime === undefined){
 				storage.set('first-time', false);
+				$scope.onboard = true;
 			} else {
-				// startApp();  // Put this back in once testing is done on onboarding!
+				startApp();  // Put this back in once testing is done on onboarding!
 			}
 
-			var tipIndex = tip.getTipIndexById(16);
-			$scope.tip = tip.tips()[tipIndex];
-			$scope.tip.pointValue = 100;
 			setData();
+		});
+		// Set default notification time.
+		var time = storage.get('time').then(function(val){
+			if(val === undefined){
+				storage.set('time', "08:00");
+				notification.setNotification();
+			}
 		});
 	}, false);
 

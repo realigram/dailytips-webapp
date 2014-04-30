@@ -12,10 +12,11 @@ angular.module('dailytips', ['ionic', 'dailytips.directives', 'dailytips.control
 		document.addEventListener("deviceready", function onDeviceReady() {
 		  var db = window.sqlitePlugin.openDatabase({name: "categories"});
 
-		  db.transaction(function(tx) {
-			tx.executeSql('CREATE TABLE IF NOT EXISTS categories (id integer primary key, selected boolean, created datetime, modified datetime)');
-			tx.executeSql('CREATE TABLE IF NOT EXISTS tips (id integer primary key, shown boolean, points integer, created datetime, modified datetime)');
-		  });
+			db.transaction(function(tx) {
+				// Only create tables if they don't exist.
+				tx.executeSql('CREATE TABLE IF NOT EXISTS categories (id integer primary key, selected boolean, created datetime, modified datetime)');
+				tx.executeSql('CREATE TABLE IF NOT EXISTS tips (id integer primary key, shown boolean, points integer, created datetime, modified datetime)');
+			});
 		}, false);
 	});
 })
