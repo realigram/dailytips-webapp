@@ -22,7 +22,7 @@ angular.module('dailytips.controllers', ['dailytips.services'])
 
 })
 
-.controller('OnboardCtrl', function($scope, $location, storage, $state, tip, point, toast, notification){
+.controller('OnboardCtrl', function($scope, $location, storage, $state, tip, point, toast, notification, achievement){
 	$scope.onboard = false;
 	var startApp = function() {
 		console.log("Change path to home.");
@@ -56,9 +56,6 @@ angular.module('dailytips.controllers', ['dailytips.services'])
 			startApp();
 		}
 	};
-
-	$scope.leftButton = leftButton;
-  	$scope.rightButton = rightButton;
 
 	 $scope.slideChanged = function(index) {
 		if(index > 0) {
@@ -109,6 +106,8 @@ angular.module('dailytips.controllers', ['dailytips.services'])
 			if(firstTime === undefined){
 				storage.set('first-time', false);
 				$scope.onboard = true;
+				$scope.leftButton = leftButton;
+				$scope.rightButton = rightButton;
 			} else {
 				startApp();  // Put this back in once testing is done on onboarding!
 			}
@@ -178,5 +177,16 @@ angular.module('dailytips.controllers', ['dailytips.services'])
 
 	document.addEventListener("deviceready", function onDeviceReady() {
 		getVals();
+	}, false);
+})
+
+.controller('AchievementsCtrl', function($scope, achievement){
+	$scope.achievements = [];
+	$scope.$onRootScope('achievements-updated', function(){
+		$scope.achievements = achievement.earnedAchievements();
+	});
+
+	document.addEventListener("deviceready", function onDeviceReady() {
+		$scope.achievements = achievement.earnedAchievements();
 	}, false);
 });

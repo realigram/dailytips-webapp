@@ -49,7 +49,6 @@ angular.module('dailytips.services', [])
 		db.transaction(function(tx) {
 			var data = tx.executeSql('select * from categories where id=?;', [id], function(tx, res) {
 				console.log("res.rows.length: " + res.rows.length);
-				console.log(res.rows);
 				var selected = true;
 				var time = new Date().toISOString();
 				if(res.rows.length > 0){
@@ -467,6 +466,104 @@ angular.module('dailytips.services', [])
 	var api = {
 		show: function(message){
 			return showToast(message);
+		}
+	};
+	return api;
+})
+
+.factory('achievement', function($q, $http, $rootScope, toast){
+	var achievements = [];
+	document.addEventListener("deviceready", function onDeviceReady() {
+		$http.get('data/achievements.json')
+		   .then(function(res){
+			  achievements = res.data;
+			  setSelected().then(function(){
+				if(findAchievement("install").complete !== true){
+					addAchievement("install");
+				}
+			  	$rootScope.$emit("achievements-updated");
+			  });
+		});
+	}, false);
+
+	var findAchievement = function(name){
+		for(var i = 0; i < achievements.length; i++){
+			if(achievements[i].name === name){
+				return achievements[i];
+			}
+		}
+		return undefined;
+	};
+
+	var addAchievement = function(name){
+		console.log("Adding new achievement: " + name);
+		var db = window.sqlitePlugin.openDatabase({name: "categories"});
+		var achievement = findAchievement(name);
+		console.log("Matching it with achievement id: " + achievement.id);
+		var timeString = new Date().toISOString();
+		db.transaction(function(tx) {
+			tx.executeSql('INSERT INTO achievements (id, complete, created, modified) VALUES (?,?,?,?);', [achievement.id, true, timeString, timeString], function(tx, res) {
+				updateSelected(achievement.id, true);
+				toast.show("You just unlocked a new achievement!");
+				$rootScope.$emit("achievements-updated");
+			});
+		});
+	};
+
+	var updateSelected = function(id, complete){
+		for(var j = 0; j < achievements.length; j++){
+			if(achievements[j].id === id){
+				achievements[j].complete = complete;
+			}
+		}
+	};
+
+	var setSelected = function(){
+		var d = $q.defer();
+		var db = window.sqlitePlugin.openDatabase({name: "categories"});
+		for(var i = 0; i < achievements.length; i++){
+			achievements[i].complete = false;
+		}
+		db.transaction(function(tx) {
+			tx.executeSql('select * from achievements;', [], function(tx, res) {
+				for(var i = 0; i < res.rows.length; i++){
+					var row = res.rows.item(i);
+					var complete;
+					if(row.complete === "false"){
+						complete = false;
+					} else if (row.complete === "true") {
+						complete = true;
+					}
+					updateSelected(row.id, complete);
+				}
+				d.resolve(true);
+          	});
+		});
+		return d.promise;
+	};
+
+	var earnedAchievements = function(){
+		var earned = [];
+		for(var i = 0; i < achievements.length; i++){
+			if(achievements[i].complete === true){
+				earned.push(achievements[i]);
+			}
+		}
+		return earned;
+	};
+
+	var api = {
+		add: function(name){
+			return addAchievement(name);
+		},
+		find: function(name){
+			return findAchievement(name);
+		},
+		achievements: function(){
+			return achievements;
+		},
+		earnedAchievements: function(){
+			return earnedAchievements();
 		}
 	};
 	return api;
