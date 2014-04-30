@@ -6,9 +6,9 @@ Installation
 
 ### Main
 
-* Install cordova and ionic `sudo npm install -g cordova ionic`
+* Install cordova and ionic `sudo npm install -g cordova ionic gulp`
 * Install android SDK version 19.
-* Export ANDROID_HOME.
+* Export ANDROID_HOME=<sdk install directory>/adt-bundle-windows-x86_64-20140321/sdk
 * Add sdk platform-tools path and tools path to PATH.
 * Install apache ant.
 * Add ANT_HOME env variable.
