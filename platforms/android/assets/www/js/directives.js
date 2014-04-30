@@ -19,4 +19,11 @@ angular.module('dailytips.directives', [])
 		restrict: 'E',
       	templateUrl: 'templates/partials/categories.html'
     };
-});
+})
+
+.directive('dtPoints', function(){
+		return {
+			restrict: 'E',
+			templateUrl: 'templates/partials/points.html'
+		};
+	});

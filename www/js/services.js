@@ -275,6 +275,9 @@ angular.module('dailytips.services', [])
 				}
 			}
 			return shown;
+		},
+		getTipIndexById: function(id){
+			return getTipIndexById(id);
 		}
 	};
 	return api;

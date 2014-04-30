@@ -1,25 +1,24 @@
-<ion-view title="Daily Tips">
-    <ion-nav-buttons side="left" ng-switch="stepCount">
-        <button class="button">Previous</button>
+<ion-view title="">
+    <ion-nav-buttons side="left">
+        <button ng-class="leftButton.type" ng-click="leftButton.tap()">{{leftButton.content}}</button>
     </ion-nav-buttons>
     <ion-nav-buttons side="right">
-        <button class="button">Next</button>
+        <button ng-class="rightButton.type" ng-click="rightButton.tap()">{{rightButton.content}}</button>
     </ion-nav-buttons>
     <ion-content class="has-header">
-        <ion-slide-box does-continue="false" show-pager="false" disable-scroll="false">
+        <ion-slide-box does-continue="false" show-pager="false" disable-scroll="false" on-slide-changed="slideChanged(index)">
             <ion-slide>
                 <h1>Welcome</h1>
-                <div>
-                    <p>This is Daily Tips, the app to help you learn neat ways to make you better.</p>
-                    <p>Select the ways you’d like to be better.</p>
+                <p>This is Daily Tips, the app to help you learn neat ways to make you better.</p>
+                <p>Select the ways you’d like to be better.</p>
 
-                    <div ng-controller="CategoriesCtrl">
-                        <dt-categories></dt-categories>
-                    </div>
+                <div ng-controller="CategoriesCtrl">
+                    <dt-categories></dt-categories>
                 </div>
             </ion-slide>
             <ion-slide>
-                 <h1>YELLOW</h1>
+                <dt-points></dt-points>
+                <dt-tip-card></dt-tip-card>
             </ion-slide>
             <ion-slide>
                 <h1>PINK</h1>

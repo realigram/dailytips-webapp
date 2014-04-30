@@ -4,15 +4,18 @@ angular.module('dailytips.controllers', ['dailytips.services'])
 })
 
 .controller('CategoriesCtrl', function ($scope, category) {
-	$scope.categories = category.categories();
-
-	$scope.$watch('categories', function(newValue, oldValue, scope) {
-       $scope.categories = newValue;
-   	}, true);
+	$scope.categories = [];
+	$scope.$onRootScope('categories-updated', function(){
+		$scope.categories = category.categories();
+	});
 
 	$scope.toggleSelection = function(item){
 		category.toggle(item.id);
-	}
+	};
+
+	document.addEventListener("deviceready", function onDeviceReady() {
+		$scope.categories = category.categories();
+	}, false);
 })
 
 .controller('TipCtrl', function ($scope, tip, point) {
@@ -37,10 +40,76 @@ angular.module('dailytips.controllers', ['dailytips.services'])
 	});
 })
 
-.controller('OnboardCtrl', function($scope, $location, storage, $state){
+.controller('OnboardCtrl', function($scope, $location, storage, $state, tip, point){
 	var startApp = function() {
 		console.log("Change path to home.");
 		$state.go("app.home");
+	};
+
+	var setData = function(){
+		$scope.points = point.points();
+		$scope.level = point.level();
+		$scope.levelPoints = point.levelPoints();
+	};
+
+	$scope.next = function() {
+		$scope.$broadcast('slideBox.nextSlide');
+	};
+
+	var rightButton = {
+		content: 'Next',
+		type: 'button-positive button',
+		tap: function(e) {
+			// Go to the next slide on tap
+			$scope.next();
+		}
+	};
+
+	var leftButton = {
+		content: 'Skip',
+		type: 'button-positive button',
+		tap: function(e) {
+			// Start the app on tap
+			startApp();
+		}
+	};
+
+	$scope.leftButton = leftButton;
+  	$scope.rightButton = rightButton;
+
+	 $scope.slideChanged = function(index) {
+		if(index > 0) {
+		  $scope.leftButton = {
+			  content: 'Back',
+			  type: 'button-positive button',
+			  tap: function() {
+				// Move to the previous slide
+				$scope.$broadcast('slideBox.prevSlide');
+			  }
+			}
+		} else {
+		  $scope.leftButton = leftButton;
+		}
+
+		if(index == 2) {
+		  $scope.rightButton = {
+			  content: 'Finish!',
+			  type: 'button-positive button',
+			  tap: function() {
+				startApp();
+			  }
+			}
+		} else {
+		  $scope.rightButton = rightButton;
+		}
+	 };
+
+	$scope.$onRootScope('points-updated', function(){
+		setData();
+	});
+
+	$scope.markDone = function(tipData){
+		tip.markDone(tipData);
 	};
 
 	document.addEventListener("deviceready", function onDeviceReady() {
@@ -48,8 +117,13 @@ angular.module('dailytips.controllers', ['dailytips.services'])
 			if(firstTime === undefined){
 				storage.set('first-time', false);
 			} else {
-				startApp();
+				// startApp();  // Put this back in once testing is done on onboarding!
 			}
+
+			var tipIndex = tip.getTipIndexById(16);
+			$scope.tip = tip.tips()[tipIndex];
+			$scope.tip.pointValue = 100;
+			setData();
 		});
 	}, false);
 
