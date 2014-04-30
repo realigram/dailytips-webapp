@@ -59,16 +59,6 @@ angular.module('dailytips', ['ionic', 'dailytips.directives', 'dailytips.control
 			}
 		})
 
-		.state('app.tips', {
-			url: "/tips",
-			views: {
-				'menuContent': {
-					templateUrl: "templates/tips.html",
-					controller: 'TipsCtrl'
-				}
-			}
-		})
-
 		.state('app.settings', {
 			url: "/settings",
 			views: {

@@ -4,14 +4,17 @@ Daily Tips
 Installation
 ------------------------------
 
+### Main
+
 * Install cordova and ionic `sudo npm install -g cordova ionic`
 * Install android SDK version 19.
 * Export ANDROID_HOME.
 * Add sdk platform-tools path and tools path to PATH.
 * Install apache ant.
 * Add ANT_HOME env variable.
+* Run `npm install` in base directory.
 
-### Cordova Plugins
+### Cordova Plugins (should already be installed)
 
 * `cordova plugin add https://github.com/brodysoft/Cordova-SQLitePlugin`
 * `cordova plugin add de.appplant.cordova.plugin.local-notification && cordova prepare`
@@ -30,10 +33,14 @@ Usage
 ionic build android
 ```
 
-### Emulate
+### Emulate/Run
 
 ```
 ionic emulate android
+```
+
+```
+ionic run android
 ```
 
 ### Test
@@ -50,8 +57,17 @@ Inspect sqlite database by using the "pull from device" function of the emulator
 
 See [this link](http://ionicframework.com/getting-started/) for more help.
 
+Publishing
+-------------------------------------------------
+
+Remove unneeded plugins -- ie `cordova plugin rm org.apache.cordova.console`.
+
+See [this page](http://ionicframework.com/docs/guide/publishing.html).
+
 Using Sass (optional)
 -------------------------------------------------
+
+Summary:  Run `gulp` when making SASS modifications.
 
 This project makes it easy to use Sass (the SCSS syntax) in your projects. This enables you to override styles from Ionic, and benefit from
 Sass's great features.

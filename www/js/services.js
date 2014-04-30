@@ -168,7 +168,7 @@ angular.module('dailytips.services', [])
 		var d = $q.defer();
 		var db = window.sqlitePlugin.openDatabase({name: "categories"});
 		db.transaction(function(tx) {
-			tx.executeSql('select * from tips where created=(select max(created) from tips);', [], function(tx, res) {
+			tx.executeSql('select * from tips where created=(select max(created) from tips where id != 16);', [], function(tx, res) {
 				if(res.rows.length > 0){
 					var index = getTipIndexById(res.rows.item(0).id);
 					tip = tips[index];
@@ -282,7 +282,7 @@ angular.module('dailytips.services', [])
 		shownTips: function(){
 			var shown = [];
 			for(var i = 0; i < tips.length; i++){
-				if(tips[i].shown === true){
+				if(tips[i].shown === true && tips[i].id !== tip.id){
 					shown.push(tips[i]);
 				}
 			}
@@ -352,6 +352,7 @@ angular.module('dailytips.services', [])
 		var dateString = new Date().toDateString();
 		var time = storage.get('time').then(function(val){
 			var date;
+			console.log("Got time " + time + " for notification");
 			if(time !== undefined){
 				date = new Date(dateString + " " + time);
 			}

@@ -22,25 +22,6 @@ angular.module('dailytips.controllers', ['dailytips.services'])
 
 })
 
-.controller('TipsCtrl', function ($scope, tip, point, toast) {
-	var setData = function(){
-		$scope.tips = tip.shownTips();
-		console.log($scope.tips.length + " shown tips exist.");
-		$scope.tip = tip.tip();
-	};
-
-	$scope.markDone = function(tipData){
-		tip.markDone(tipData);
-		toast.show("Nice job!  Keep it up!");
-	};
-
-	setData();
-
-	$scope.$onRootScope('tips-updated', function(){
-		setData();
-	});
-})
-
 .controller('OnboardCtrl', function($scope, $location, storage, $state, tip, point, toast, notification){
 	$scope.onboard = false;
 	var startApp = function() {
@@ -137,17 +118,18 @@ angular.module('dailytips.controllers', ['dailytips.services'])
 		// Set default notification time.
 		var time = storage.get('time').then(function(val){
 			if(val === undefined){
-				storage.set('time', "08:00");
-				notification.setNotification();
+				storage.set('time', "08:00").then(function(){
+					notification.setNotification();
+				});
 			}
 		});
 	}, false);
 
 })
 
-.controller('HomeCtrl', function ($scope, tip, point, storage) {
+.controller('HomeCtrl', function ($scope, tip, point, storage, toast) {
 	var setData = function(){
-		$scope.tips = tip.tips();
+		$scope.tips = tip.shownTips();
 		$scope.tip = tip.tip();
 		$scope.points = point.points();
 		$scope.level = point.level();
@@ -156,6 +138,7 @@ angular.module('dailytips.controllers', ['dailytips.services'])
 
 	$scope.markDone = function(tipData){
 		tip.markDone(tipData);
+		toast.show("Nice job!  Keep it up!");
 	};
 
 	$scope.$onRootScope('tips-updated', function(){
@@ -183,8 +166,9 @@ angular.module('dailytips.controllers', ['dailytips.services'])
 	};
 
 	$scope.set = function(key){
-		storage.set(key, $scope.settings[key]);
-		notification.setNotification();
+		storage.set(key, $scope.settings[key]).then(function(){
+			notification.setNotification();
+		});
 	};
 
 	document.addEventListener("deviceready", function onDeviceReady() {

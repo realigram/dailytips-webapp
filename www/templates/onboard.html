@@ -1,11 +1,11 @@
-<ion-view title="">
+<ion-view title="Daily Tips">
     <ion-nav-buttons side="left">
         <button ng-class="leftButton.type" ng-click="leftButton.tap()">{{leftButton.content}}</button>
     </ion-nav-buttons>
     <ion-nav-buttons side="right">
         <button ng-class="rightButton.type" ng-click="rightButton.tap()">{{rightButton.content}}</button>
     </ion-nav-buttons>
-    <ion-content class="has-header">
+    <ion-content class="has-header" padding="true">
         <ion-slide-box does-continue="false" show-pager="false" disable-scroll="false" on-slide-changed="slideChanged(index)" ng-if="onboard">
             <ion-slide>
                 <h1>Welcome</h1>

@@ -1,0 +1,1 @@
+gulp sass && ionic build android && adb -s 42f71e0295939fbd install platforms/android/ant-build/DailyTips-debug-unaligned.apk

@@ -15,8 +15,8 @@
 
     <div class="item tabs tabs-secondary tabs-icon-left">
     <a class="tab-item" href="#" ng-click="markDone(tip)">
-      <i class="icon ion-checkmark-round"></i>
-      Done -- {{tip.pointValue}} points
+      <i class="icon ion-checkmark-round" ng-class="(tip.points > 0) ? 'icon-green' : ''"></i>
+      Done<span ng-if="tip.points == 0"> -- {{tip.pointValue}} points</span>
     </a>
     </div>
 </div>
