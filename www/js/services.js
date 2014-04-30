@@ -293,6 +293,9 @@ angular.module('dailytips.services', [])
 		},
 		createTip: function(id){
 			return createTip(id);
+		},
+		updatePoints: function(id, points){
+			return updatePoints(id, points);
 		}
 	};
 	return api;

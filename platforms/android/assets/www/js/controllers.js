@@ -137,8 +137,13 @@ angular.module('dailytips.controllers', ['dailytips.services'])
 	};
 
 	$scope.markDone = function(tipData){
-		tip.markDone(tipData);
-		toast.show("Nice job!  Keep it up!");
+		if(tipData.points == 0){
+			tip.markDone(tipData);
+			toast.show("Nice job!  Keep it up!");
+		} else {
+			tip.updatePoints(tipData.id, 0);
+			toast.show("We'll get it next time!");
+		}
 	};
 
 	$scope.$onRootScope('tips-updated', function(){
