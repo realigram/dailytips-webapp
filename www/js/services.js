@@ -350,7 +350,7 @@ angular.module('dailytips.services', [])
 	var getNotificationTime = function(){
 		var d = $q.defer();
 		var dateString = new Date().toDateString();
-		var time = storage.get('time').then(function(val){
+		storage.get('time').then(function(time){
 			var date;
 			console.log("Got time " + time + " for notification");
 			if(time !== undefined){
@@ -361,9 +361,19 @@ angular.module('dailytips.services', [])
 		return d.promise;
 	};
 
+	var cancelNotification = function(id){
+		var d = $q.defer();
+		window.plugin.notification.local.cancel(id, function () {
+			d.resolve(true);
+		});
+		return d.promise;
+	};
+
 	var setNotification = function(){
 		var d = $q.defer();
+		console.log("Setting notification");
 		getNotificationTime().then(function(date){
+			console.log("Got date for notification: " + date.toISOString());
 			if(date !== undefined){
 				window.plugin.notification.local.add({
 					id:         1,  // A unique id of the notifiction
@@ -376,6 +386,7 @@ angular.module('dailytips.services', [])
 				});
 			}
 			d.resolve(true);
+
 		});
 		return d.promise;
 	};
