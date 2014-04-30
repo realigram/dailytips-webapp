@@ -12,4 +12,11 @@ angular.module('dailytips.directives', [])
 		restrict: 'E',
       	templateUrl: 'templates/partials/no-tips.html'
     };
+})
+
+.directive('dtCategories', function(){
+	return {
+		restrict: 'E',
+      	templateUrl: 'templates/partials/categories.html'
+    };
 });

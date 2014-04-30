@@ -10,6 +10,12 @@
     <feature name="SQLitePlugin">
         <param name="android-package" value="org.pgsqlite.SQLitePlugin" />
     </feature>
+    <feature name="LocalNotification">
+        <param name="android-package" value="de.appplant.cordova.plugin.localnotification.LocalNotification" />
+    </feature>
+    <feature name="AppPreferences">
+        <param name="android-package" value="me.apla.cordova.AppPreferences" />
+    </feature>
     <name>DailyTips</name>
     <description>
         Daily health tips.

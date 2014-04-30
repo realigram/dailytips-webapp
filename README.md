@@ -11,6 +11,8 @@ Installation
 * Install apache ant.
 * Add ANT_HOME env variable.
 * `cordova plugin add https://github.com/brodysoft/Cordova-SQLitePlugin`
+* `cordova plugin add de.appplant.cordova.plugin.local-notification && cordova prepare`
+* `cordova plugin add me.apla.cordova.app-preferences`
 
 See [this link](http://stackoverflow.com/questions/20323787/cordova-platform-add-android-not-working-while-listing-android-targets) for details.
 

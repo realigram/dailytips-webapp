@@ -29,6 +29,16 @@ angular.module('dailytips', ['ionic', 'dailytips.directives', 'dailytips.control
 			controller: 'AppCtrl'
 		})
 
+		.state('app.onboard', {
+			url: "/onboard",
+			views: {
+				'menuContent': {
+					templateUrl: "templates/onboard.html",
+					controller: 'OnboardCtrl'
+				}
+			}
+		})
+
 		.state('app.home', {
 			url: "/home",
 			views: {
@@ -58,6 +68,16 @@ angular.module('dailytips', ['ionic', 'dailytips.directives', 'dailytips.control
 			}
 		})
 
+		.state('app.settings', {
+			url: "/settings",
+			views: {
+				'menuContent': {
+					templateUrl: "templates/settings.html",
+					controller: 'SettingsCtrl'
+				}
+			}
+		})
+
 		.state('app.single', {
 			url: "/tips/tipId",
 			views: {
@@ -68,7 +88,7 @@ angular.module('dailytips', ['ionic', 'dailytips.directives', 'dailytips.control
 			}
 		});
 	// if none of the above states are matched, use this as the fallback
-	$urlRouterProvider.otherwise('/app/home');
+	$urlRouterProvider.otherwise('/app/onboard');
 
 	$provide.decorator('$rootScope', ['$delegate', function($delegate){
 

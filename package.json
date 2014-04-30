@@ -9,6 +9,6 @@
     "gulp-minify-css": "^0.3.0",
     "gulp-rename": "^1.2.0",
 	"cordova": "~3.4.1-0.1.0",
-    "ionic": "~1.0.4"
+    "ionic": "~1.0.9"
   }
 }

@@ -1,0 +1,29 @@
+<ion-view title="Daily Tips">
+    <ion-nav-buttons side="left" ng-switch="stepCount">
+        <button class="button">Previous</button>
+    </ion-nav-buttons>
+    <ion-nav-buttons side="right">
+        <button class="button">Next</button>
+    </ion-nav-buttons>
+    <ion-content class="has-header">
+        <ion-slide-box does-continue="false" show-pager="false" disable-scroll="false">
+            <ion-slide>
+                <h1>Welcome</h1>
+                <div>
+                    <p>This is Daily Tips, the app to help you learn neat ways to make you better.</p>
+                    <p>Select the ways you’d like to be better.</p>
+
+                    <div ng-controller="CategoriesCtrl">
+                        <dt-categories></dt-categories>
+                    </div>
+                </div>
+            </ion-slide>
+            <ion-slide>
+                 <h1>YELLOW</h1>
+            </ion-slide>
+            <ion-slide>
+                <h1>PINK</h1>
+            </ion-slide>
+        </ion-slide-box>
+    </ion-content>
+</ion-view>

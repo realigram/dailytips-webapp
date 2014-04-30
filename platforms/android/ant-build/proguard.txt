@@ -1,6 +1,15 @@
 # view AndroidManifest.xml #generated:6
 -keep class com.realigram.dailytips.DailyTips { <init>(...); }
 
+# view AndroidManifest.xml #generated:15
+-keep class de.appplant.cordova.plugin.localnotification.Receiver { <init>(...); }
+
+# view AndroidManifest.xml #generated:21
+-keep class de.appplant.cordova.plugin.localnotification.ReceiverActivity { <init>(...); }
+
+# view AndroidManifest.xml #generated:16
+-keep class de.appplant.cordova.plugin.localnotification.Restore { <init>(...); }
+
 # view AndroidManifest.xml #generated:12
 -keep class org.pgsqlite.SQLitePlugin { <init>(...); }
 

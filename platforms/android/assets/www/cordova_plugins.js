@@ -13,6 +13,20 @@ module.exports = [
         "clobbers": [
             "SQLitePlugin"
         ]
+    },
+    {
+        "file": "plugins/de.appplant.cordova.plugin.local-notification/www/local-notification.js",
+        "id": "de.appplant.cordova.plugin.local-notification.LocalNotification",
+        "clobbers": [
+            "plugin.notification.local"
+        ]
+    },
+    {
+        "file": "plugins/me.apla.cordova.app-preferences/www/apppreferences.js",
+        "id": "me.apla.cordova.app-preferences.apppreferences",
+        "clobbers": [
+            "plugins.appPreferences"
+        ]
     }
 ];
 module.exports.metadata = 
@@ -20,7 +34,9 @@ module.exports.metadata =
 {
     "org.apache.cordova.console": "0.2.8",
     "org.apache.cordova.device": "0.2.9",
-    "com.phonegap.plugins.sqlite": "1.0.0"
+    "com.phonegap.plugins.sqlite": "1.0.0",
+    "de.appplant.cordova.plugin.local-notification": "0.7.4",
+    "me.apla.cordova.app-preferences": "0.4.2"
 }
 // BOTTOM OF METADATA
 });

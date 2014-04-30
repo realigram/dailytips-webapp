@@ -1,4 +1,10 @@
 /home/vik/realigram/dailytips-web/platforms/android/ant-build/classes.dex : \
+/home/vik/realigram/dailytips-web/platforms/android/ant-build/classes/me/apla/cordova/AppPreferences$2.class \
+/home/vik/realigram/dailytips-web/platforms/android/ant-build/classes/me/apla/cordova/AppPreferences$1.class \
+/home/vik/realigram/dailytips-web/platforms/android/ant-build/classes/me/apla/cordova/AppPreferences$3.class \
+/home/vik/realigram/dailytips-web/platforms/android/ant-build/classes/me/apla/cordova/AppPreferences.class \
+/home/vik/realigram/dailytips-web/platforms/android/ant-build/classes/me/apla/cordova/AppPreferences$4.class \
+/home/vik/realigram/dailytips-web/platforms/android/ant-build/classes/com/simonmacdonald/prefs/AppPreferences.class \
 /home/vik/realigram/dailytips-web/platforms/android/ant-build/classes/com/realigram/dailytips/R$attr.class \
 /home/vik/realigram/dailytips-web/platforms/android/ant-build/classes/com/realigram/dailytips/DailyTips.class \
 /home/vik/realigram/dailytips-web/platforms/android/ant-build/classes/com/realigram/dailytips/R.class \
@@ -7,6 +13,15 @@
 /home/vik/realigram/dailytips-web/platforms/android/ant-build/classes/com/realigram/dailytips/HelloCordova.class \
 /home/vik/realigram/dailytips-web/platforms/android/ant-build/classes/com/realigram/dailytips/R$string.class \
 /home/vik/realigram/dailytips-web/platforms/android/ant-build/classes/com/realigram/dailytips/R$xml.class \
+/home/vik/realigram/dailytips-web/platforms/android/ant-build/classes/de/appplant/cordova/plugin/localnotification/LocalNotification.class \
+/home/vik/realigram/dailytips-web/platforms/android/ant-build/classes/de/appplant/cordova/plugin/localnotification/LocalNotification$4.class \
+/home/vik/realigram/dailytips-web/platforms/android/ant-build/classes/de/appplant/cordova/plugin/localnotification/Receiver.class \
+/home/vik/realigram/dailytips-web/platforms/android/ant-build/classes/de/appplant/cordova/plugin/localnotification/ReceiverActivity.class \
+/home/vik/realigram/dailytips-web/platforms/android/ant-build/classes/de/appplant/cordova/plugin/localnotification/Restore.class \
+/home/vik/realigram/dailytips-web/platforms/android/ant-build/classes/de/appplant/cordova/plugin/localnotification/LocalNotification$2.class \
+/home/vik/realigram/dailytips-web/platforms/android/ant-build/classes/de/appplant/cordova/plugin/localnotification/LocalNotification$1.class \
+/home/vik/realigram/dailytips-web/platforms/android/ant-build/classes/de/appplant/cordova/plugin/localnotification/LocalNotification$3.class \
+/home/vik/realigram/dailytips-web/platforms/android/ant-build/classes/de/appplant/cordova/plugin/localnotification/Options.class \
 /home/vik/realigram/dailytips-web/platforms/android/ant-build/classes/org/pgsqlite/SQLitePlugin.class \
 /home/vik/realigram/dailytips-web/platforms/android/ant-build/classes/org/pgsqlite/SQLitePlugin$2.class \
 /home/vik/realigram/dailytips-web/platforms/android/ant-build/classes/org/pgsqlite/SQLitePlugin$1.class \

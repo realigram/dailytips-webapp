@@ -95,7 +95,7 @@ angular.module('dailytips.services', [])
 	return api;
 })
 
-.factory("tip", function($http, $rootScope, $q, category){
+.factory("tip", function($http, $rootScope, $q, category, notification){
 	var tips = [];
 	var tip = {};
 	document.addEventListener("deviceready", function onDeviceReady() {
@@ -190,33 +190,35 @@ angular.module('dailytips.services', [])
 	var selectDailyTip = function(){
 		getLastTip().then(function(lastTip){
 			var time = new Date();
-			console.log("The last tip is", lastTip);
-			if(lastTip.created !== undefined){
-				var hourDiff = getHourDiff(lastTip.created);
-				console.log("Hour diff from last tip to now is " + hourDiff);
-			} else {
-				console.log("No daily tip found yet, setting one now.");
-				hourDiff = 24;
-			}
-			if(hourDiff >= 24){
-				var newTip = pickRandomTip();
-				console.log("Picked a new tip.", newTip);
-				var timeString = new Date().toISOString();
-				if(newTip !== undefined){
-					var db = window.sqlitePlugin.openDatabase({name: "categories"});
-					db.transaction(function(tx) {
-						tx.executeSql('INSERT INTO tips (id, shown, points, created, modified) VALUES (?,?,?,?,?);', [newTip.id, true, 0, timeString, timeString], function(tx, res) {
-							tip = newTip;
-							tip.shown = true;
-							tip.created = time;
-							tip.pointValue = getPointsForTip(time);
-							var index = getTipIndexById(tip.id);
-							tips[index] = tip;
-							$rootScope.$emit("tips-updated");
-						});
-					});
+			var notificationTime = notification.getNotificationTime().then(function(notificationTime){
+				console.log("The last tip is", lastTip);
+				if(lastTip.created !== undefined){
+					var hourDiff = getHourDiff(lastTip.created);
+					console.log("Hour diff from last tip to now is " + hourDiff);
+				} else {
+					console.log("No daily tip found yet, setting one now.");
+					hourDiff = 24;
 				}
-			}
+				if((hourDiff >= 24) || (hourDiff > 1 && ((time - notificationTime) / (1000 * 60 * 60)) < 1)){
+					var newTip = pickRandomTip();
+					console.log("Picked a new tip.", newTip);
+					var timeString = new Date().toISOString();
+					if(newTip !== undefined){
+						var db = window.sqlitePlugin.openDatabase({name: "categories"});
+						db.transaction(function(tx) {
+							tx.executeSql('INSERT INTO tips (id, shown, points, created, modified) VALUES (?,?,?,?,?);', [newTip.id, true, 0, timeString, timeString], function(tx, res) {
+								tip = newTip;
+								tip.shown = true;
+								tip.created = time;
+								tip.pointValue = getPointsForTip(time);
+								var index = getTipIndexById(tip.id);
+								tips[index] = tip;
+								$rootScope.$emit("tips-updated");
+							});
+						});
+					}
+				}
+			});
 		});
 	};
 
@@ -323,4 +325,95 @@ angular.module('dailytips.services', [])
 	};
 	return api;
 
+})
+
+.factory('notification', function(storage, $q){
+
+	var getNotificationTime = function(){
+		var d = $q.defer();
+		var dateString = new Date().toDateString();
+		var time = storage.get('time').then(function(val){
+			var date;
+			if(time !== undefined){
+				date = new Date(dateString + " " + time);
+			}
+			d.resolve(date);
+		});
+		return d.promise;
+	};
+
+	var setNotification = function(){
+		var d = $q.defer();
+		getNotificationTime().then(function(date){
+			if(date !== undefined){
+				window.plugin.notification.local.add({
+					id:         1,  // A unique id of the notifiction
+					date:       date,    // This expects a date object
+					message:    "A new tip is waiting for you!",  // The message that is displayed
+					title:      "New daily tip!",  // The title of the message
+					repeat:     'daily',  // Either 'secondly', 'minutely', 'hourly', 'daily', 'weekly', 'monthly' or 'yearly'
+					autoCancel: true, // Setting this flag and the notification is automatically canceled when the user clicks it
+					ongoing: false // Prevent clearing of notification (Android only)
+				});
+			}
+			d.resolve(true);
+		});
+		return d.promise;
+	};
+
+	var api = {
+		setNotification: function(){
+			return setNotification();
+		},
+		getNotificationTime: function(){
+			return getNotificationTime();
+		}
+	};
+	return api;
+})
+
+.factory('storage', function($q){
+
+	var setValue = function(key, val){
+		var d = $q.defer();
+		window.plugins.appPreferences.store(
+			function(){
+				console.log("Saved value for " + key + " and " + val);
+				d.resolve(true);
+			},
+			function(){
+				console.log("Couldn't save value for " + key + " and " + val);
+				d.resolve(false);
+			},
+			key,
+			val
+		);
+		return d.promise;
+	};
+
+	var getValue = function(key){
+		var d = $q.defer();
+		window.plugins.appPreferences.fetch(
+			function(val){
+				console.log("Got value for " + key + " and " + val);
+				d.resolve(val);
+			},
+			function(){
+				console.log("Couldn't get value for " + key);
+				d.resolve(undefined);
+			},
+			key
+		);
+		return d.promise;
+	};
+
+	var api = {
+		set: function(key, val){
+			return setValue(key, val);
+		},
+		get: function(key){
+			return getValue(key);
+		}
+	};
+	return api;
 });
