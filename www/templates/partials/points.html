@@ -1,6 +1,6 @@
-<div class="list card">
+<div class="list card scorecontainer">
     <div class="item">
-        <h2>Level {{level}}</h2>
-        <p>{{points}} points, {{levelPoints}}/{{level*100}} to next level</p>
+        <h2 class="level">Level {{level}}</h2>
+        <p class="points"><span class="pointcounter-current">{{points}}</span> points/<span class="pointcounter-next">{{(level * 100) - levelPoints}} to next level</span></p>
     </div>
 </div>
