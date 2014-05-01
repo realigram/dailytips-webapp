@@ -302,7 +302,7 @@ angular.module('dailytips.services', [])
 .factory("level", function($http, $rootScope, $q, point){
 	var level = 1;
 	var nextLevel = 2;
-	var pointsPerLevelMultiplier = 100;
+	var pointsPerLevelMultiplier = 500;
 	var pointsForNextLevel = nextLevel * pointsPerLevelMultiplier;
 	function setLevel(points){ // loops over the number of points acquired and
 		// loop over levels, starting with 1, and multiplying by 10
@@ -323,7 +323,7 @@ angular.module('dailytips.services', [])
 			return level;
 		},
 		nextLevel:function () {
-			return level;
+			return nextLevel;
 		},
 		pointsForNextLevel:function () {
 			return pointsForNextLevel;

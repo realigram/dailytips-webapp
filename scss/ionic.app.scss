@@ -33,5 +33,10 @@ $ionicons-font-path: "../lib/ionic/fonts" !default;
 }
 
 .dt-app-background{background-color:#EEE; }
-.level{float:left; }
-.points{float:right; }
+
+.scorecontainer{
+	.level{float:left; }
+	.points{float:right; }
+	.pointcounter-current {color:#F44; font-size:1.5em}
+	.pointcounter-next {font-size:0.8em}
+}

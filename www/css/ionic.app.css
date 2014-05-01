@@ -6340,8 +6340,12 @@ a.button {
 .dt-app-background {
   background-color: #EEE; }
 
-.level {
+.scorecontainer .level {
   float: left; }
-
-.points {
+.scorecontainer .points {
   float: right; }
+.scorecontainer .pointcounter-current {
+  color: #F44;
+  font-size: 1.5em; }
+.scorecontainer .pointcounter-next {
+  font-size: 0.8em; }
