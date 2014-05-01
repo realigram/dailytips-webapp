@@ -25,3 +25,18 @@ $ionicons-font-path: "../lib/ionic/fonts" !default;
   color: $balanced;
 }
 
+.bar.nav-bar {
+	background-color: #F44;
+	border-bottom: 3px solid #E32F2F;
+	.title {color:#FFF;}
+	.ion-navicon {color:#FFF;}
+}
+
+.dt-app-background{background-color:#EEE; }
+
+.scorecontainer{
+	.level{float:left; }
+	.points{float:right; }
+	.pointcounter-current {color:#F44; font-size:1.5em}
+	.pointcounter-next {font-size:0.8em}
+}
