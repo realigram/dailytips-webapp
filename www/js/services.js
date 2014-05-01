@@ -303,24 +303,18 @@ angular.module('dailytips.services', [])
 	var level = 1;
 	var nextLevel = 2;
 	var pointsPerLevelMultiplier = 100;
-	var pointsForCurrentLevel = level * pointsPerLevelMultiplier;
 	var pointsForNextLevel = nextLevel * pointsPerLevelMultiplier;
-	var remainingPoints;
 	function setLevel(points){ // loops over the number of points acquired and
-		remainingPoints = points - pointsForCurrentLevel;
 		// loop over levels, starting with 1, and multiplying by 10
-		for (;remainingPoints > pointsForCurrentLevel;){
-			pointsForCurrentLevel = level * pointsPerLevelMultiplier;
-			remainingPoints -= pointsForCurrentLevel;
+		for (;points >= pointsForNextLevel;){
 			level += 1;
-			pointsForNextLevel = level * pointsPerLevelMultiplier;
-			console.log('remainingPoints,pointsForCurrentLevel,pointsForNextLevel',remainingPoints,pointsForCurrentLevel,pointsForNextLevel);
+			nextLevel += 1;
+			pointsForNextLevel = nextLevel * pointsPerLevelMultiplier;
 		}
 		$rootScope.$emit("level-updated",level);
 	};
 
 	$rootScope.$on('points-updated',function (event, points) {
-		console.log('points-updated ',typeof points,points);
 		setLevel(points);
 	});
 
