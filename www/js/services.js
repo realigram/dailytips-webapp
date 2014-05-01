@@ -314,18 +314,21 @@ angular.module('dailytips.services', [])
 			remainingPoints -= pointsForCurrentLevel;
 			level += 1;
 			pointsForNextLevel = level * pointsPerLevelMultiplier;
+			console.log('remainingPoints,pointsForCurrentLevel,pointsForNextLevel',remainingPoints,pointsForCurrentLevel,pointsForNextLevel);
 		}
 		$rootScope.$emit("level-updated",level);
 	};
 
 	$rootScope.$on('points-updated',function (event, points) {
 		console.log('points-updated ',typeof points,points);
-		return;
 		setLevel(points);
 	});
 
 	var api = {
 		level:function () {
+			return level;
+		},
+		nextLevel:function () {
 			return level;
 		},
 		pointsForNextLevel:function () {

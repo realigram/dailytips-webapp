@@ -32,6 +32,7 @@ angular.module('dailytips.controllers', ['dailytips.services'])
 	var setData = function(){
 		$scope.points = point.points();
 		$scope.level = level.level();
+		$scope.nextLevel = level.nextLevel();
 		$scope.pointsForNextLevel = level.pointsForNextLevel();
 	};
 
@@ -87,7 +88,8 @@ angular.module('dailytips.controllers', ['dailytips.services'])
 		}
 	 };
 
-	$scope.$onRootScope('points-updated', function(){
+	$scope.$onRootScope('level-updated', function(){
+		console.log('setData on level-updated');
 		setData();
 	});
 
@@ -133,6 +135,7 @@ angular.module('dailytips.controllers', ['dailytips.services'])
 		$scope.tip = tip.tip();
 		$scope.points = point.points();
 		$scope.level = level.level();
+		$scope.nextLevel = level.nextLevel();
 		$scope.pointsForNextLevel = level.pointsForNextLevel();
 	};
 
@@ -145,7 +148,7 @@ angular.module('dailytips.controllers', ['dailytips.services'])
 		setData();
 	});
 
-	$scope.$onRootScope('points-updated', function(){
+	$scope.$onRootScope('level-updated', function(){
 		setData();
 	});
 
