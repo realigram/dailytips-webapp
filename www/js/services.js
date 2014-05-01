@@ -299,46 +299,60 @@ angular.module('dailytips.services', [])
 
 })
 
-.factory("point", function($http, $rootScope, $q, tip){
-	var points = 0;
+.factory("level", function($http, $rootScope, $q, point){
 	var level = 1;
-	var levelPoints = 0;
-	$rootScope.$on('tips-updated', function(){
-		setTotalPoints();
-		setLevel(points);
-		console.log("Points are: " + points + " and level is: " + level + " to level up, need: " + levelPoints);
-		$rootScope.$emit("points-updated");
-	});
-
-	var setTotalPoints = function(){
-		var tips = tip.tips();
-		points = 0;
-		for(var i = 0; i < tips.length; i++){
-			points = points + tips[i].points;
+	var nextLevel = 2;
+	var pointsPerLevelMultiplier = 100;
+	var pointsForCurrentLevel = level * pointsPerLevelMultiplier;
+	var pointsForNextLevel = nextLevel * pointsPerLevelMultiplier;
+	var remainingPoints;
+	function setLevel(points){ // loops over the number of points acquired and
+		remainingPoints = points - pointsForCurrentLevel;
+		// loop over levels, starting with 1, and multiplying by 10
+		for (;remainingPoints > pointsForCurrentLevel;){
+			pointsForCurrentLevel = level * pointsPerLevelMultiplier;
+			remainingPoints -= pointsForCurrentLevel;
+			level += 1;
+			pointsForNextLevel = level * pointsPerLevelMultiplier;
 		}
+		$rootScope.$emit("level-updated",level);
 	};
 
-	var setLevel = function(points){
-		var needed = 0;
-		level = 0;
-		var remaining = points;
-		while(remaining >= needed){
-			level = level + 1;
-			remaining = remaining - needed;
-			needed = needed + 100;
+	$rootScope.$on('points-updated',function (event, points) {
+		console.log('points-updated ',typeof points,points);
+		return;
+		setLevel(points);
+	});
+
+	var api = {
+		level:function () {
+			return level;
+		},
+		pointsForNextLevel:function () {
+			return pointsForNextLevel;
 		}
-		levelPoints = remaining;
+	}
+	return api;
+})
+
+.factory("point", function($http, $rootScope, $q, tip){
+	var points = 0;
+	$rootScope.$on('tips-updated', function(){
+		setTotalPoints(); //set total points from all person's historical tips
+		// setLevel(points); //
+		console.log("Points are: " + points);
+		$rootScope.$emit("points-updated",points);
+	});
+
+	function setTotalPoints (){
+		angular.forEach(tip.tips(),function (tipObj,i) {
+			points += tipObj.points;
+		});
 	};
 
 	var api = {
 		points: function(){
 			return points;
-		},
-		level: function(){
-			return level;
-		},
-		levelPoints: function(){
-			return levelPoints;
 		}
 	};
 	return api;

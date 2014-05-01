@@ -22,7 +22,7 @@ angular.module('dailytips.controllers', ['dailytips.services'])
 
 })
 
-.controller('OnboardCtrl', function($scope, $location, storage, $state, tip, point, toast, notification){
+.controller('OnboardCtrl', function($scope, $location, storage, $state, tip, point, toast, notification,level){
 	$scope.onboard = false;
 	var startApp = function() {
 		console.log("Change path to home.");
@@ -31,8 +31,8 @@ angular.module('dailytips.controllers', ['dailytips.services'])
 
 	var setData = function(){
 		$scope.points = point.points();
-		$scope.level = point.level();
-		$scope.levelPoints = point.levelPoints();
+		$scope.level = level.level();
+		$scope.pointsForNextLevel = level.pointsForNextLevel();
 	};
 
 	$scope.next = function() {
@@ -127,13 +127,13 @@ angular.module('dailytips.controllers', ['dailytips.services'])
 
 })
 
-.controller('HomeCtrl', function ($scope, tip, point, storage, toast) {
+.controller('HomeCtrl', function ($scope, tip, point, storage, toast, level) {
 	var setData = function(){
 		$scope.tips = tip.shownTips();
 		$scope.tip = tip.tip();
 		$scope.points = point.points();
-		$scope.level = point.level();
-		$scope.levelPoints = point.levelPoints();
+		$scope.level = level.level();
+		$scope.pointsForNextLevel = level.pointsForNextLevel();
 	};
 
 	$scope.markDone = function(tipData){
