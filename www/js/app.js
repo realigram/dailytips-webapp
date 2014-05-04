@@ -8,8 +8,14 @@ angular.module('dailytips', ['ionic', 'dailytips.directives', 'dailytips.control
 			StatusBar.styleDefault();
 		}
 
+		function initGA() {
+			analytics.startTrackerWithId('UA-41411988-2');
+			console.log("Initialized analytics!");
+		}
+
 		// Create databases to track categories and tips
 		document.addEventListener("deviceready", function onDeviceReady() {
+		 initGA();
 		  var db = window.sqlitePlugin.openDatabase({name: "categories"});
 
 			db.transaction(function(tx) {
@@ -23,7 +29,6 @@ angular.module('dailytips', ['ionic', 'dailytips.directives', 'dailytips.control
 })
 .config(function ($stateProvider, $urlRouterProvider, $provide) {
 	$stateProvider
-
 		.state('app', {
 			url: "/app",
 			abstract: true,

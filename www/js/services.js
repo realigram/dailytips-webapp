@@ -198,37 +198,51 @@ angular.module('dailytips.services', [])
 		return d.promise;
 	};
 
-	var selectDailyTip = function(){
-		getLastTip().then(function(lastTip){
-			var time = new Date();
-			var notificationTime = notification.getNotificationTime().then(function(notificationTime){
-				console.log("The last tip is", lastTip);
-				if(lastTip.created !== undefined){
-					var hourDiff = getHourDiff(lastTip.created);
-					console.log("Hour diff from last tip to now is " + hourDiff);
-				} else {
-					console.log("No daily tip found yet, setting one now.");
-					hourDiff = 24;
-				}
-				if((hourDiff >= 24) || (hourDiff > 1 && ((time - notificationTime) / (1000 * 60 * 60)) < 1)){
-					var newTip = pickRandomTip();
-					console.log("Picked a new tip.", newTip);
-					var timeString = new Date().toISOString();
-					if(newTip !== undefined){
-						var db = window.sqlitePlugin.openDatabase({name: "categories"});
-						db.transaction(function(tx) {
-							tx.executeSql('INSERT INTO tips (id, shown, points, created, modified) VALUES (?,?,?,?,?);', [newTip.id, true, 0, timeString, timeString], function(tx, res) {
-								tip = newTip;
-								tip.shown = true;
-								tip.created = time;
-								tip.pointValue = getPointsForTip(time);
-								var index = getTipIndexById(tip.id);
-								tips[index] = tip;
-								$rootScope.$emit("tips-updated");
-							});
-						});
+	var getDayTipsCount = function(){
+		var d = $q.defer();
+		var db = window.sqlitePlugin.openDatabase({name: "categories"});
+		db.transaction(function(tx) {
+			tx.executeSql("select * from tips where created > date('now', '-1 day');", [], function(tx, res) {
+				var newTips = [];
+				for(var i = 0; i < res.rows.length; i ++){
+					var index = getTipIndexById(res.rows.item(i).id);
+					var category = tips[index].category;
+					if(category !== "Install"){
+						newTips.push(tips[index]);
 					}
 				}
+				d.resolve(newTips.length);
+			});
+		});
+		return d.promise;
+	};
+
+	var selectDailyTip = function(){
+		getLastTip().then(function(){
+			var time = new Date();
+			notification.getNotificationTime().then(function(notificationTime){
+				getDayTipsCount().then(function(dayTipsCount){
+					console.log("Tips shown today: " + dayTipsCount);
+					if((dayTipsCount == 0) && (time > notificationTime) || !tip.hasOwnProperty('id')){
+						var newTip = pickRandomTip();
+						console.log("Picked a new tip." + newTip);
+						var timeString = new Date().toISOString();
+						if(newTip !== undefined){
+							var db = window.sqlitePlugin.openDatabase({name: "categories"});
+							db.transaction(function(tx) {
+								tx.executeSql('INSERT INTO tips (id, shown, points, created, modified) VALUES (?,?,?,?,?);', [newTip.id, true, 0, timeString, timeString], function(tx, res) {
+									tip = newTip;
+									tip.shown = true;
+									tip.created = time;
+									tip.pointValue = getPointsForTip(time);
+									var index = getTipIndexById(tip.id);
+									tips[index] = tip;
+									$rootScope.$emit("tips-updated");
+								});
+							});
+						}
+					}
+				});
 			});
 		});
 	};
@@ -268,6 +282,16 @@ angular.module('dailytips.services', [])
 		return d.promise;
 	};
 
+	var shownTips = function(){
+		var shown = [];
+		for(var i = 0; i < tips.length; i++){
+			if(tips[i].shown === true && tips[i].id !== tip.id){
+				shown.push(tips[i]);
+			}
+		}
+		return shown;
+	};
+
 	var api = {
 		tips: function(){
 			return tips;
@@ -279,13 +303,7 @@ angular.module('dailytips.services', [])
 			return markTipDone(tip);
 		},
 		shownTips: function(){
-			var shown = [];
-			for(var i = 0; i < tips.length; i++){
-				if(tips[i].shown === true && tips[i].id !== tip.id){
-					shown.push(tips[i]);
-				}
-			}
-			return shown;
+			return shownTips();
 		},
 		getTipIndexById: function(id){
 			return getTipIndexById(id);
@@ -564,6 +582,27 @@ angular.module('dailytips.services', [])
 		},
 		earnedAchievements: function(){
 			return earnedAchievements();
+		}
+	};
+	return api;
+})
+
+.factory("ga", function(){
+
+	var trackScreen = function(name){
+		analytics.trackView(name);
+	};
+
+	var trackEvent = function(category, action, label, value){
+		analytics.trackEvent(category, action, label, value)
+	};
+
+	var api = {
+		trackScreen: function(name){
+			return trackScreen(name);
+		},
+		trackEvent: function(category, action, label, value){
+			return trackEvent(category, action, label, value);
 		}
 	};
 	return api;
