@@ -20,6 +20,7 @@ Installation
 * `cordova plugin add de.appplant.cordova.plugin.local-notification && cordova prepare`
 * `cordova plugin add me.apla.cordova.app-preferences`
 * `cordova plugin add https://github.com/EddyVerbruggen/Toast-PhoneGap-Plugin.git && cordova prepare`
+* `cordova plugin add https://github.com/danwilson/google-analytics-plugin.git`
 
 See [this link](http://stackoverflow.com/questions/20323787/cordova-platform-add-android-not-working-while-listing-android-targets) for details.
 
