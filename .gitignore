@@ -18,3 +18,5 @@ local.properties
 **/ant-build/**/*
 **/ant-gen/**/*
 /platforms/android/assets/www/**/*
+plugins/de.appplant.cordova.plugin.local-notification/.fetch.json
+plugins/me.apla.cordova.app-preferences/.fetch.json
