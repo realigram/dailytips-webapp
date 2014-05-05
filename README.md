@@ -20,6 +20,7 @@ Installation
 * `cordova plugin add de.appplant.cordova.plugin.local-notification && cordova prepare`
 * `cordova plugin add me.apla.cordova.app-preferences`
 * `cordova plugin add https://github.com/EddyVerbruggen/Toast-PhoneGap-Plugin.git && cordova prepare`
+* `cordova plugin add https://github.com/danwilson/google-analytics-plugin.git`
 
 See [this link](http://stackoverflow.com/questions/20323787/cordova-platform-add-android-not-working-while-listing-android-targets) for details.
 
@@ -60,9 +61,15 @@ See [this link](http://ionicframework.com/getting-started/) for more help.
 Publishing
 -------------------------------------------------
 
-Remove unneeded plugins -- ie `cordova plugin rm org.apache.cordova.console`.
+* Remove unneeded plugins -- ie `cordova plugin rm org.apache.cordova.console`.
+* Edit platforms/android/AndroidManifest.xml -- set debuggable to false.
+* `cordova build --release android`
+* `jarsigner -verbose -sigalg SHA1withRSA -digestalg SHA1 -keystore ~/fitalize.keystore DailyTips-release-unsigned.apk fitalize`
+* `zipalign -v 4 DailyTips-release-unsigned.apk DailyTips.apk`
 
 See [this page](http://ionicframework.com/docs/guide/publishing.html).
+
+
 
 Using Sass (optional)
 -------------------------------------------------
