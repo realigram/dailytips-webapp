@@ -61,9 +61,15 @@ See [this link](http://ionicframework.com/getting-started/) for more help.
 Publishing
 -------------------------------------------------
 
-Remove unneeded plugins -- ie `cordova plugin rm org.apache.cordova.console`.
+* Remove unneeded plugins -- ie `cordova plugin rm org.apache.cordova.console`.
+* Edit platforms/android/AndroidManifest.xml -- set debuggable to false.
+* `cordova build --release android`
+* `jarsigner -verbose -sigalg SHA1withRSA -digestalg SHA1 -keystore ~/fitalize.keystore DailyTips-release-unsigned.apk fitalize`
+* `zipalign -v 4 DailyTips-release-unsigned.apk DailyTips.apk`
 
 See [this page](http://ionicframework.com/docs/guide/publishing.html).
+
+
 
 Using Sass (optional)
 -------------------------------------------------

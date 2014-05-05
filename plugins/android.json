@@ -77,9 +77,6 @@
         }
     },
     "installed_plugins": {
-        "org.apache.cordova.console": {
-            "PACKAGE_NAME": "com.ionicframework.dailytips"
-        },
         "org.apache.cordova.device": {
             "PACKAGE_NAME": "com.ionicframework.dailytips"
         },
@@ -96,6 +93,9 @@
             "PACKAGE_NAME": "com.realigram.dailytips"
         },
         "com.danielcwilson.plugins.googleanalytics": {
+            "PACKAGE_NAME": "com.realigram.dailytips"
+        },
+        "org.apache.cordova.console": {
             "PACKAGE_NAME": "com.realigram.dailytips"
         }
     },
